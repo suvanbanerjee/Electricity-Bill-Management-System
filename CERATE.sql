@@ -23,7 +23,7 @@ CREATE TABLE tariffs (
 );
 
 -- Create the usage table
-CREATE TABLE usage (
+CREATE TABLE `usage` (
     id INT AUTO_INCREMENT PRIMARY KEY,
     customer_id INT,
     units_used INT NOT NULL DEFAULT 0,

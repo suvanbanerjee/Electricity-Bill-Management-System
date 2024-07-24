@@ -2,7 +2,7 @@
 
 # Database credentials
 DB_USER="root"
-DB_PASS=""
+DB_PASS="P@ssw0rd"
 DB_NAME="dbms"
 
 # Function to execute a custom SQL query
