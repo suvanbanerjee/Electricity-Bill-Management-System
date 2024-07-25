@@ -78,11 +78,11 @@ generate_bill() {
 }
 # Function to show customers details
 show_customers() {
-    CUSTOMERS=$(mysql -u $DB_USER -p$DB_PASS -D $DB_NAME -e "SELECT * FROM customer;" | grep -v 'id')
-    CUSTOMER_DETAILS="ID            Name                 Phone           Address                          Type      \n"
-    CUSTOMER_DETAILS+="\n"
+    CUSTOMERS=$(mysql -u $DB_USER -p$DB_PASS -D $DB_NAME -e "SELECT * FROM customer;")
     CUSTOMER_DETAILS+=$(echo "$CUSTOMERS" | awk -F'\t' '{printf "%-12s %-20s %-15s %-30s %-10s\n", $1, $2, $3, $4, $5}')
     whiptail --title "Customers Details" --msgbox "$CUSTOMER_DETAILS" 20 120
+    CUSTOMERS=""
+    CUSTOMER_DETAILS=""
 }
 show_tables() {
     TABLES=("customer" ""
@@ -150,6 +150,7 @@ pay_bill() {
         ██████████████████████████████████████
         "
         mysql -u $DB_USER -p$DB_PASS -D $DB_NAME -e "DELETE FROM billing WHERE customer_id = $CUSTOMER_ID;"
+        mysql -u $DB_USER -p$DB_PASS -D $DB_NAME -e "UPDATE accounts SET last_payment_date = CURDATE() WHERE customer_id = $CUSTOMER_ID;"
         whiptail --title "Pay Bill" --msgbox "$MESSAGE" 30 120
         whiptail --msgbox "Bill paid successfully!" 10 60
     else
